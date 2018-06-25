@@ -1,10 +1,10 @@
-# à propos de _zsh_
+# à propos de Bash et Zsh
 
-## compter avec _zsh_
+## compter
 
-Voici un exemple important, il y a des différences peut-être minimes mais cruciales avec _bash_:
+Voici un exemple important qui fonctionne tel quel avec les deux shells:
 
-```sh
+```bash
 i=0
 while (( $i < 100 ))
 do
@@ -12,3 +12,4 @@ do
    ((i = i+1))
 done
 ```
+
