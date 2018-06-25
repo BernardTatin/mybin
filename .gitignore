@@ -1,0 +1,11 @@
+# IDEs
+.*.swp
+
+# archives
+*.zip
+*.tar
+*.bz2
+*.gz
+
+# products of Typora
+*.html
