@@ -14,6 +14,11 @@ set -o nounset
 ## the name of the script
 script=$(basename $0)
 
+# the du command with parameters:
+# -s : summarize each elements
+# -m : values in megabytes
+_du="du -sm"
+
 function dohelp() {
    cat <<HELP
 $script --help: this text
@@ -29,12 +34,12 @@ HELP
 
 case $# in
    0)
-      du -sm ./*
+      ${_du} ./*
       ;;
    1)
-      du -sm $1/*
+      ${_du} $1/*
       ;;
    *)
-      du -sm "$@"
+      ${_du} "$@"
       ;;
 esac | sort -nr | head -3
