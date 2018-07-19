@@ -40,19 +40,14 @@ Comme nous travaillons dans un répertoire sensible, beaucoup de fichiers sont p
 On obtient quelque chose qui ressemble à ça (ce n'est qu'un extrait, la liste est assez longue sur ma machine):
 
 ```
-application/vnd.openxmlformats-officedocument.presentationml.presentation; charset=binary
-application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=binary
 application/x-gnupg-keyring; charset=binary
 application/x-java-keystore; charset=binary
 application/zlib; charset=binary
 inode/x-empty; charset=binary
 text/html; charset=iso-8859-1
 text/html; charset=us-ascii
-text/html; charset=utf-8
-text/plain; charset=iso-8859-1
 text/plain; charset=us-ascii
 text/plain; charset=utf-8
-text/troff; charset=us-ascii
 text/x-c; charset=us-ascii
 text/x-c; charset=utf-8
 ```
