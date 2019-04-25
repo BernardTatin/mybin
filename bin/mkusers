@@ -1,0 +1,19 @@
+#!/bin/sh
+
+script=$(basename $0)
+
+dohelp () {
+	exitcode=$1
+	cat << DOHELP
+$script : this text
+$script user1 user2 ... : create all these users with adduser
+DOHELP
+	exit $exitcode
+}
+[ $# -eq 0 ] && dohelp 0
+
+while [ $# -ne 0 ]
+do
+	adduser --shell /usr/bin/zsh --gecos "" $1
+	shift
+done
