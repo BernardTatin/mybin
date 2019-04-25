@@ -11,6 +11,9 @@ freemem=$(( 1 - MINDMEM ))
 freeswap=$(( 1 - MINDSWAP ))
 doit=0
 loops=0
+deltat=10 
+PRINTF=/usr/bin/printf
+
 
 function get_mem_info () {
 	local regex=$1
@@ -30,6 +33,7 @@ function delta_mem () {
 	echo $dmem
 }
 
+echo "deltat: ${deltat} - log: ${log}"
 while true
 do
 	lfreemem=$(get_mem_info "^MemFree")
@@ -39,7 +43,7 @@ do
 	dswap=$(delta_mem lfreeswap freeswap)
 
 	doit=0
-	(( loops >= 180 )) && doit=1
+	(( loops >= deltat )) && doit=1
 	(( dmem >= MINDMEM )) && doit=1
 	(( dswap >= MINDSWAP )) && doit=1
 	lnow=$(date "+%y%m%d-%H%M%S")
@@ -48,7 +52,7 @@ do
 		loops=0 && \
 		freemem=${lfreemem} && \
 		freeswap=${lfreeswap} && \
-		echo "${lnow} - freemem : ${freemem} - freeswap : ${freeswap}" >> $log
+		$PRINTF "${lnow} - freemem : %6d - freeswap : %6d\n" ${freemem} ${freeswap} >> $log
 	# echo " freemem : ${lfreemem} - freeswap : ${lfreeswap}"
 	sleep 1
 	(( loops++ ))
