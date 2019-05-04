@@ -16,3 +16,8 @@ ensureroot() {
 	echo "EUID : $EUID, UID : $UID"
 	[ $EUID -ne 0 ] && onerror "you must be root"
 }
+
+standardize_dir() {
+    (cd $1 && pwd)
+}
+

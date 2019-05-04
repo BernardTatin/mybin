@@ -1,0 +1,50 @@
+/*
+ * style.css
+ *
+ * for Pandoc
+ */
+
+body {
+    margin: auto;
+    font-family: "CMU Serif", serif;
+}
+
+@media screen {
+    body {
+        max-width: 720px;
+    }
+}
+
+/*
+ * Pandoc goes through the print media
+ */
+@media print {
+    @page {
+        @top-center { content: "Document"; }
+        @bottom-center { content: "N° page"; }
+    }
+    body {
+        max-width: 85%;
+        font-size: 1.15rem;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: left;
+    font-family: "CMU Serif Extra", "CMU Serif", serif;
+    color: #888;
+}
+h1, h2, h3 {
+    border-bottom: 1px solid #a77;
+}
+h1, h2 {
+    font-weight:bold;
+}
+
+h3,h4,h5,h6 {
+    font-style:italic;
+}
+p, ul, ol {
+    text-align: justify;
+    padding-left: 3rem;
+}
