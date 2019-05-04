@@ -2,12 +2,9 @@
 
 . $(dirname $0)/base.inc.sh
 
-here=$(standardize_dir $(dirname $0))
-script=$(basename $0)
-
 startdir=.
 docdir=./fulldoc
-css=${here}/style.css
+css=$(dirname ${here})/docstyles/default.css
 doclear=0
 debug=0
 
@@ -17,12 +14,11 @@ dohelp() {
     then
         ecode=$1
         shift
-        [ ${ecode} -ne 0 ] && printf "ERROR: " 1>2
-        [ $# -ne 0 ] && echo $@ 1>2
+        show_error "$@"
     fi
     cat << DOHELP
 ${script} -h|--help: this text
-${script} [OPTIONS]: convert markdown files of current dir all to PDF
+${script} [OPTIONS]: convert all markdown files of current dir to PDF
 OPTIONS:
     --startdir dir: use dir instead of current dir, default ${startdir}
     --docdir dir: destination dir of PDF files, default ${docdir}
@@ -53,24 +49,24 @@ do
             ;;
         --startdir)
             shift 
-            [ $# -eq 0 ] && dohelp 1 "$1 must be followed by a dir name"
+            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a dir name"
             startdir="$1"
             ;;
         --css)
             shift 
-            [ $# -eq 0 ] && dohelp 1 "$1 must be followed by a css name"
+            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a css name"
             css="$1"
             ;;
         --docdir)
             shift 
-            [ $# -eq 0 ] && dohelp 1 "$1 must be followed by a dir name"
+            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a dir name"
             docdir="$1"
             ;;
         --debug)
             debug=1
             ;;
         *)
-            dohelp 1 "unknown option '$1'"
+            dohelp ${FAILURE} "unknown option '$1'"
             ;;
     esac
     shift

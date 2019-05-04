@@ -6,8 +6,12 @@ current_user=$USER
 SUCCESS=0
 FAILURE=1
 
+show_error() {
+	echo "[ERROR] $@" >&2
+    echo >&2
+}
 onerror() {
-	echo "[ERROR] $*" 1>2
+    show_error "$@"
 	echo "try '$scrippt --help'" 
 	exit ${FAILURE}
 }
@@ -21,3 +25,4 @@ standardize_dir() {
     (cd $1 && pwd)
 }
 
+here=$(standardize_dir $(dirname $0))
