@@ -11,3 +11,5 @@ do
   cp -v $f ${PREFIX}/bin 
 done 
 
+cp -Rva ${HERE}/docstyles ${PREFIX}
+
