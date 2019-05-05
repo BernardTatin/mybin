@@ -5,11 +5,11 @@
 startdir=.
 mdfiles=
 docdir=./fulldoc
-css=$(dirname ${here})/docstyles/default.css
+css=$(dirname ${here})/pbook-styles/default.css
 doclear=0
 makebook=0
 bookname=
-tmpmd=/tmp/mypandoc.md
+tmpmd=
 debug=0
 
 rm -f ${tmpmd}
@@ -24,13 +24,17 @@ dohelp() {
     fi
     cat << DOHELP
 ${script} -h|--help: this text
-${script} [OPTIONS] [FILES.md]: convert all markdown files of current dir to PDF
+${script} --book book-name.pdf [OPTIONS] FILES.md...: make a PDF book with all FILES.md
+--book book.pdf: create a book with all files, default "", i.e. no book
 OPTIONS:
-    --startdir dir: use dir instead of current dir, default ${startdir}
+    --css css-file: css used, default ${css}
+    --doclear: erase previous docdir, default false
+${script} [OPTIONS] [FILES.md]: convert all markdown files of current dir to PDF
+--startdir dir: use dir instead of current dir, default ${startdir}
+OPTIONS:
     --docdir dir: destination dir of PDF files, default ${docdir}
     --css css-file: css used, default ${css}
     --doclear: erase previous docdir, default false
-    --book book.pdf: create a book with all files, default "", i.e. no book
 DOHELP
     exit ${ecode}
 }
