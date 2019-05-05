@@ -9,3 +9,7 @@
 
 # products of Typora
 *.html
+
+# book creation
+bin-book.md
+bin-book.pdf
