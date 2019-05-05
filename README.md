@@ -1,7 +1,7 @@
 ---
-author: Bernard Tatin
-title: Histoires de shells
-
+author: "Bernard Tatin"
+title: "Histoires de shells"
+date: "Mai 2019"
 ---
 # README
 
