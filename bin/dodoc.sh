@@ -8,6 +8,7 @@ docdir=./fulldoc
 css=$(dirname ${here})/docstyles/default.css
 doclear=0
 makebook=0
+bookname=
 tmpmd=/tmp/mypandoc.md
 debug=0
 
@@ -29,6 +30,7 @@ OPTIONS:
     --docdir dir: destination dir of PDF files, default ${docdir}
     --css css-file: css used, default ${css}
     --doclear: erase previous docdir, default false
+    --book book.pdf: create a book with all files, default "", i.e. no book
 DOHELP
     exit ${ecode}
 }
@@ -43,6 +45,7 @@ show_config() {
         echo "css:          $css" && \
         echo "doclear:      $doclear" && \
         echo "mdfiles:      $mdfiles" && \
+        echo "bookname:     $bookname" && \
         echo '============================================='
 }
 
@@ -60,6 +63,12 @@ do
             [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a dir name"
             startdir="$1"
             ;;
+        --book)
+            shift
+            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a file name"
+            bookname="$1"
+            makebook=1
+            ;;
         --css)
             shift
             [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a css name"
@@ -74,6 +83,9 @@ do
             debug=1
             ;;
         *)
+            [ $makebook -eq 0 ] && \
+              dohelp ${FAILURE} "you need a book file name (option --book PDF)"
+            tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
             mdfiles=${tmpmd}
             while [ $# -gt 0 ]; do
               cat $1 >> ${tmpmd}
@@ -87,17 +99,18 @@ done
 
 show_config
 
-! [ -n "${mdfiles}" ] \
+[ ${makebook} -eq 0 ] \
     && startdir=$(standardize_dir $startdir) \
-    && mdfiles=$(cd ${startdir} && find . -name '*.md')
-mkdir -p $docdir
-docdir=$(standardize_dir $docdir)
+    && mdfiles=$(cd ${startdir} && find . -name '*.md') \
+    && mkdir -p $docdir \
+    && docdir=$(standardize_dir $docdir)
 
 show_config
 
-[ ${doclear} -eq 1 ] && rm -rf ${docdir}
-
-cd ${startdir}
+[ ${makebook} -eq 0 ] \
+    && [ ${doclear} -eq 1 ] \
+    && rm -rf ${docdir} \
+    && cd ${startdir}
 
 for f in ${mdfiles}
 do
@@ -107,6 +120,8 @@ do
     ddir=$(echo $fdir | sed "s!^\.!${docdir}!")
     echo "$f -> $ddir/$fname.pdf"
     mkdir -p $ddir
+    pdf_file=$ddir/$fname.pdf
+    [ $makebook -eq 1 ] && pdf_file=$bookname
     [ ${debug} -ne 1 ] && \
         pandoc --standalone \
             --toc \
@@ -115,5 +130,5 @@ do
             -t html \
             $f \
             --pdf-engine=wkhtmltopdf \
-            -o $ddir/$fname.pdf
+            -o ${pdf_file}
 done
