@@ -5,7 +5,7 @@
 startdir=.
 mdfiles=
 docdir=./fulldoc
-css=$(dirname ${here})/pbook-styles/default.css
+css=${here}/pbook-styles/default.css
 doclear=0
 makebook=0
 bookname=
