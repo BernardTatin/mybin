@@ -90,6 +90,7 @@ do
             [ $makebook -eq 0 ] && \
               dohelp ${FAILURE} "you need a book file name (option --book PDF)"
             tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
+            rm -f ${tmpmd}
             mdfiles=${tmpmd}
             while [ $# -gt 0 ]; do
               cat $1 >> ${tmpmd}
@@ -133,6 +134,5 @@ do
             -f markdown \
             -t html \
             $f \
-            --pdf-engine=wkhtmltopdf \
             -o ${pdf_file}
 done
