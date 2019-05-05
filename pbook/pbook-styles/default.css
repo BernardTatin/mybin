@@ -18,15 +18,39 @@ body {
 /*
  * Pandoc goes through the print media
  */
-@media print {
-    @page {
-        @top-center { content: "Document"; }
-        @bottom-center { content: "N° page"; }
-    }
-    body {
-        max-width: 85%;
-        font-size: 1.15rem;
-    }
+ @media print {
+   header {
+     break-after: always;
+   }
+   @page :first {
+     margin-top: 16cm;
+   }
+   @page {
+   }
+   body {
+     max-width: 85%;
+     font-size: 1.15rem;
+   }
+ }
+
+header h1.title {
+  color: black;
+}
+header p.author {
+  font-style: italic;
+}
+header, #TOC {
+  /*
+   see: https://www.sitepoint.com/css-printer-friendly-pages/
+   */
+  page-break-after: always;
+  break-after: always;
+}
+
+#TOC ul li a {
+  color: #228;
+  outline: none;
+  text-decoration: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
