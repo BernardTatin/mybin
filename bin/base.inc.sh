@@ -1,3 +1,4 @@
+#!/bin/sh
 # ce fichier doit être inclu par un script shell
 
 script=$(basename $0)
