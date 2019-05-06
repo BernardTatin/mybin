@@ -113,9 +113,9 @@ show_config
 show_config
 
 [ ${makebook} -eq 0 ] \
+    && cd ${startdir} \
     && [ ${doclear} -eq 1 ] \
-    && rm -rf ${docdir} \
-    && cd ${startdir}
+    && rm -rf ${docdir}
 
 for f in ${mdfiles}
 do
@@ -130,6 +130,9 @@ do
     [ ${debug} -ne 1 ] && \
         pandoc --standalone \
             --toc \
+            --reference-links \
+            --number-sections \
+            --pdf-engine=wkhtmltopdf \
             --css ${css} \
             -f markdown \
             -t html \
