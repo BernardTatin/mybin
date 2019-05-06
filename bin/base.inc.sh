@@ -7,12 +7,12 @@ SUCCESS=0
 FAILURE=1
 
 show_error() {
-	echo "[ERROR] $@" >&2
+	echo "[ERROR] $*" >&2
     echo >&2
 }
 onerror() {
     show_error "$@"
-	echo "try '$scrippt --help'" 
+	echo "try '$script --help'"
 	exit ${FAILURE}
 }
 
