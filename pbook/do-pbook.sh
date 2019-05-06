@@ -2,15 +2,26 @@
 
 . $(dirname $0)/base.inc.sh
 
-startdir=.
+# generic configuration
+debug=0
 mdfiles=
-docdir=./fulldoc
 css=${here}/pbook-styles/default.css
-doclear=0
+
+# can be:
+# - website: same directory tree but with html instead of md files
+# - book:    combination of all md input files in one PDF made through wkhtmltopdf, using CSS
+# - article: combination of all md input files in one PDF made through LaTeX
+output_type=
+
+# book configuration
 makebook=0
 bookname=
 tmpmd=
-debug=0
+
+# website configuration
+startdir=.
+website=./fulldoc
+doclear=0
 
 rm -f ${tmpmd}
 
@@ -24,17 +35,16 @@ dohelp() {
     fi
     cat << DOHELP
 ${script} -h|--help: this text
-${script} --book book-name.pdf [OPTIONS] FILES.md...: make a PDF book with all FILES.md
---book book.pdf: create a book with all files, default "", i.e. no book
+${script} article article-name.pdf FILES.md...: make a PDF book with all FILES.md
+${script} book book-name.pdf [--css cssfile] FILES.md...: make a PDF book with all FILES.md
 OPTIONS:
     --css css-file: css used, default ${css}
-    --doclear: erase previous docdir, default false
-${script} [OPTIONS] [FILES.md]: convert all markdown files of current dir to PDF
---startdir dir: use dir instead of current dir, default ${startdir}
+${script} website [--startdir dir] [--website dir] [--css cssfile] [--doclear]: convert all markdown files of current dir to HTML in the website dir
 OPTIONS:
-    --docdir dir: destination dir of PDF files, default ${docdir}
+    --startdir dir: source dir of Markdown files, default ${startdir}
+    --website dir: destination dir of PDF files, default ${website}
     --css css-file: css used, default ${css}
-    --doclear: erase previous docdir, default false
+    --doclear: erase previous website, default false
 DOHELP
     exit ${ecode}
 }
@@ -45,7 +55,7 @@ show_config() {
         echo "here:         $here" && \
         echo "script:       $script" && \
         echo "startdir:     $startdir" && \
-        echo "docdir:       $docdir" && \
+        echo "website:      $website" && \
         echo "css:          $css" && \
         echo "doclear:      $doclear" && \
         echo "mdfiles:      $mdfiles" && \
@@ -53,89 +63,82 @@ show_config() {
         echo '============================================='
 }
 
-while [ $# -ne 0 ]
-do
-    case $1 in
-        -h|--help)
-            dohelp
-            ;;
-        --doclear)
-            doclear=1
-            ;;
-        --startdir)
-            shift
-            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a dir name"
-            startdir="$1"
-            ;;
-        --book)
-            shift
-            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a file name"
-            bookname="$1"
-            makebook=1
-            ;;
-        --css)
-            shift
-            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a css name"
-            css="$1"
-            ;;
-        --docdir)
-            shift
-            [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a dir name"
-            docdir="$1"
-            ;;
-        --debug)
-            debug=1
-            ;;
-        *)
-            [ $makebook -eq 0 ] && \
-              dohelp ${FAILURE} "you need a book file name (option --book PDF)"
-            tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
-            rm -f ${tmpmd}
-            mdfiles=${tmpmd}
-            while [ $# -gt 0 ]; do
-              cat $1 >> ${tmpmd}
-              echo >> ${tmpmd}
-              shift
-            done
-            ;;
-    esac
-    [ $# -gt 0 ] && shift
-done
+prepare_book() {
+  [ -z "$bookname" ] && \
+    dohelp ${FAILURE} "you need a book file name"
+  tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
+  rm -f ${tmpmd}
+  mdfiles=${tmpmd}
+  while [ $# -gt 0 ]; do
+    cat $1 >> ${tmpmd}
+    echo >> ${tmpmd}
+    shift
+  done
+}
 
-show_config
+book() {
+  echo "book $*"
+  bookname=$1
+  shift
+  case $1 in
+    --css)
+      shift
+      [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a css name"
+      css="$1"
+      shift
+      ;;
+    *)
+      ;;
+  esac
+  [ $# -eq 0 ] && dohelp ${FAILURE} "a book needs markdown files in input"
+  prepare_book "$@"
+  pandoc --standalone \
+      --toc \
+      --reference-links \
+      --number-sections \
+      --pdf-engine=wkhtmltopdf \
+      --css ${css} \
+      -f markdown \
+      -t html \
+      $tmpmd \
+      -o ${bookname}
+}
+article() {
+  bookname=$1
+  shift
+  [ $# -eq 0 ] && dohelp ${FAILURE} "an article needs markdown files in input"
+  prepare_book "$@"
+  pandoc --standalone \
+      --toc \
+      --reference-links \
+      --number-sections \
+      --pdf-engine=pdflatex \
+      --template=default \
+      -f markdown \
+      $tmpmd \
+      -o ${bookname}
+}
 
-[ ${makebook} -eq 0 ] \
-    && startdir=$(standardize_dir $startdir) \
-    && mdfiles=$(cd ${startdir} && find . -name '*.md') \
-    && mkdir -p $docdir \
-    && docdir=$(standardize_dir $docdir)
+[ $# -eq 0 ] && dohelp
 
-show_config
+output_type=$1
+shift
 
-[ ${makebook} -eq 0 ] \
-    && cd ${startdir} \
-    && [ ${doclear} -eq 1 ] \
-    && rm -rf ${docdir}
-
-for f in ${mdfiles}
-do
-    echo "$f ...."
-    fdir=$(dirname $f)
-    fname=$(basename $f .md)
-    ddir=$(echo $fdir | sed "s!^\.!${docdir}!")
-    echo "$f -> $ddir/$fname.pdf"
-    mkdir -p $ddir
-    pdf_file=$ddir/$fname.pdf
-    [ $makebook -eq 1 ] && pdf_file=$bookname
-    [ ${debug} -ne 1 ] && \
-        pandoc --standalone \
-            --toc \
-            --reference-links \
-            --number-sections \
-            --pdf-engine=wkhtmltopdf \
-            --css ${css} \
-            -f markdown \
-            -t html \
-            $f \
-            -o ${pdf_file}
-done
+case ${output_type} in
+  -h|--help)
+    dohelp
+    ;;
+  book)
+    book "$@"
+    ;;
+  article)
+    article "$@"
+    ;;
+  website)
+    dohelp 1 "no code for this"
+    # website "$@"
+    ;;
+  *)
+    dohelp
+    ;;
+esac
