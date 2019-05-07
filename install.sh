@@ -1,15 +1,14 @@
-#!/bin/sh 
+#!/bin/sh
 
-PREFIX=/usr/local 
-HERE=$(pwd)
+PREFIX=/usr/local
+here=$(pwd)
 
 echo "Installation des scripts indispensables dans ${PREFIX}..."
 
-for f in ${HERE}/bin/*
-do 
+for f in ${here}/bin/*
+do
   echo "Installation de $f ..."
-  cp -v $f ${PREFIX}/bin 
-done 
+  cp -v $f ${PREFIX}/bin
+done
 
-cp -Rva ${HERE}/docstyles ${PREFIX}
-
+cp -Rva ${here}/pbook ${PREFIX}
