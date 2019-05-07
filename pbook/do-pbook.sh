@@ -68,7 +68,6 @@ prepare_book() {
     dohelp ${FAILURE} "you need a book file name"
   tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
   rm -f ${tmpmd}
-  mdfiles=${tmpmd}
   while [ $# -gt 0 ]; do
     cat $1 >> ${tmpmd}
     echo >> ${tmpmd}
@@ -112,11 +111,13 @@ article() {
       --toc \
       --reference-links \
       --number-sections \
-      --pdf-engine=pdflatex \
+       --pdf-engine=xelatex \
+      --variable mainfont="TeX Gyre Pagella" \
       --template=default \
       -f markdown \
       $tmpmd \
       -o ${bookname}
+
 }
 
 [ $# -eq 0 ] && dohelp
