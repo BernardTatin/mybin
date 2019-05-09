@@ -13,3 +13,5 @@
 # book creation
 bin-*.md
 bin-*.pdf
+
+*.log

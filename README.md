@@ -6,10 +6,10 @@ lang: fr-FR
 abstract: |
   Le shell est un élément indispensable losqu'on travaille
   sous Unix. Voici de quoi améliorer ses compétences.
+
+  Beaucoup de notes à propos des shells et de l'administration _Linux_. Et des scripts, beaucoup de scripts.
 ---
 # README
-
-Beaucoup de notes à propos des shells et de l'administration _Linux_. Et des scripts, beaucoup de scripts.
 
 ## installation/désinstallation
 
