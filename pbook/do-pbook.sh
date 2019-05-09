@@ -111,7 +111,7 @@ article() {
       --toc \
       --reference-links \
       --number-sections \
-       --pdf-engine=xelatex \
+      --pdf-engine=xelatex \
       --variable mainfont="TeX Gyre Pagella" \
       --template=default \
       -f markdown \
