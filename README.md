@@ -3,6 +3,9 @@ author: "Bernard Tatin"
 title: "Histoires de shells"
 date: "Mai 2019"
 lang: fr-FR
+titlepage: on
+toc-own-page: on
+book: false
 abstract: |
   Le shell est un élément indispensable losqu'on travaille
   sous Unix. Voici de quoi améliorer ses compétences.
