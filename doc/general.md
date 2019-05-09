@@ -19,7 +19,7 @@ La commande `sort` offre de nombreuses possibilités dont celles de trier non pa
 sort -t ':' -k 7 /etc/passwd
 ```
 
-Ce qui donne le résultat escompté. 
+Ce qui donne le résultat escompté.
 
 Une autre possibilité intéressante de `sort`  va nous permettre de connaître tous les shells utilisés par les comptes du système. En s'aidant de `cut`:
 
@@ -40,3 +40,13 @@ Nous obtenonns sur ma machine cette liste:
 
 On peut éventuellement en profiter pour désinstaller les shells non utilisés.
 
+## *sourcer* des fichiers
+
+*Sourcer* un fichier, c'est l'*inclure* dans le script courant comme s'il faisait parti du code en court d'interprétation. Depuis une console, sourcer un fichier, c'est comme si on saisissait son contenu au clavier. Dans le dernier cas, l'intérêt est de pouvoir, entre autre, modifier les variables d'environnement.
+
+Selon les *shells*, il y a deux syntaxes possibles:
+
+- `. filename`: pour `sh`, `bash`, `zsh` et certainement bien d'autres,
+- `source filename`: pour `bash`, `zsh` mais ***pas*** pour `sh`.
+
+Pour certains *shell* et avec la syntaxe `.`, la recherche du fichier s'effectue dans les répertoires de la variable `PATH` d'où, parfois, la nécessité de rappeler le chemin complet ou relatif du fichier comme par exemple `. ./filename`. La syntaxe `source filename` fait *aussi* une recherche dans le répertoire courant.
