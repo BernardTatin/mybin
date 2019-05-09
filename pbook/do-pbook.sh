@@ -111,9 +111,7 @@ article() {
       --toc \
       --reference-links \
       --number-sections \
-      --pdf-engine=xelatex \
-      --variable mainfont="TeX Gyre Pagella" \
-      --template=default \
+      --template=eisvogel \
       -f markdown \
       $tmpmd \
       -o ${bookname}
