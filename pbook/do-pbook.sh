@@ -66,7 +66,8 @@ show_config() {
 prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
-  tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
+  # tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
+  tmpmd=$(get_tmp_file tmpmd)
   rm -f ${tmpmd}
   while [ $# -gt 0 ]; do
     cat $1 >> ${tmpmd}
@@ -141,3 +142,5 @@ case ${output_type} in
     dohelp
     ;;
 esac
+
+rm -fv ${tmpmd}
