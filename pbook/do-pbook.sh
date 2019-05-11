@@ -9,7 +9,6 @@ set -u
 
 # ----------------------------------------------------------------------
 # generic configuration
-mdfiles=
 css=${here:-$(dirname $ 0)}/pbook-styles/default.css
 
 # can be:
