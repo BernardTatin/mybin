@@ -1,11 +1,14 @@
 #!/usr/bin/env  dash
 
+set -e
+set -u
+
 . $(dirname $0)/base.inc.sh
 
 # generic configuration
-debug=0
+debug=${debug:-0}
 mdfiles=
-css=${here}/pbook-styles/default.css
+css=${here:-$(dirname $ 0)}/pbook-styles/default.css
 
 # can be:
 # - website: same directory tree but with html instead of md files
@@ -14,19 +17,35 @@ css=${here}/pbook-styles/default.css
 output_type=
 
 # book configuration
-makebook=0
+makebook=${makebook:-0}
 bookname=
-tmpmd=
+tmpmd=$(get_tmp_file tmpmd)
 
 # website configuration
-startdir=.
-website=./fulldoc
-doclear=0
+startdir=${startdir:-'.'}
+website=${website:-'./fulldoc'}
+doclear=${doclear:-0}
 
 # variables
-retcode=0
+retcode=${retcode:-$SUCCESS}
 
-rm -f ${tmpmd}
+echo 'before:'
+trap
+
+trap_exit() {
+  rm -fv ${tmpmd}
+  exit ${retcode}
+}
+
+trap_error() {
+  retcode=${FAILURE}
+}
+trap trap_error INT QUIT KILL TERM
+trap trap_exit EXIT
+
+echo 'after'
+trap
+exit
 
 get_help_text() {
     cat << DOHELP
@@ -61,9 +80,6 @@ show_config() {
 prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
-  # tmpmd=$(dirname $bookname)/$(basename $bookname .pdf).md
-  tmpmd=$(get_tmp_file tmpmd)
-  rm -f ${tmpmd}
   while [ $# -gt 0 ]; do
     cat "$1" >> ${tmpmd}
     echo >> ${tmpmd}
@@ -138,7 +154,3 @@ case ${output_type} in
     dohelp
     ;;
 esac
-
-rm -fv ${tmpmd}
-
-exit ${retcode}
