@@ -27,7 +27,7 @@ DOHELP
      esac
 # ----------------------------------------------------------------------
 
-PREFIX=/usr/local
+PREFIX=${PREFIX:-/usr/local}
 
 echo "Installation des scripts indispensables dans ${PREFIX}..."
 
