@@ -23,6 +23,9 @@ startdir=.
 website=./fulldoc
 doclear=0
 
+# variables
+retcode=0
+
 rm -f ${tmpmd}
 
 dohelp() {
@@ -70,7 +73,7 @@ prepare_book() {
   tmpmd=$(get_tmp_file tmpmd)
   rm -f ${tmpmd}
   while [ $# -gt 0 ]; do
-    cat $1 >> ${tmpmd}
+    cat "$1" >> ${tmpmd}
     echo >> ${tmpmd}
     shift
   done
@@ -101,7 +104,7 @@ book() {
       -f markdown \
       -t html \
       $tmpmd \
-      -o ${bookname}
+      -o ${bookname} || retcode=1
 }
 article() {
   bookname=$1
@@ -113,9 +116,10 @@ article() {
       --reference-links \
       --number-sections \
       --template=eisvogel \
+      --pdf-engine=xelatex \
       -f markdown \
       $tmpmd \
-      -o ${bookname}
+      -o ${bookname} || retcode=1
 
 }
 
@@ -144,3 +148,5 @@ case ${output_type} in
 esac
 
 rm -fv ${tmpmd}
+
+exit ${retcode}
