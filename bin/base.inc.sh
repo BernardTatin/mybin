@@ -8,8 +8,10 @@ readonly current_user=$USER
 readonly SUCCESS=0
 readonly FAILURE=1
 
+debug=${debug:-0}
+
 # variables
-retcode=${retcode:-$FAILURE}
+retcode=$FAILURE
 
 standardize_dir() {
 	(cd $1 && pwd)

@@ -3,13 +3,12 @@
 # ----------------------------------------------------------------------
 set -e
 set -u
-
+# set -x
 # ----------------------------------------------------------------------
 . $(dirname $0)/base.inc.sh
 
 # ----------------------------------------------------------------------
 # generic configuration
-debug=${debug:-0}
 mdfiles=
 css=${here:-$(dirname $ 0)}/pbook-styles/default.css
 
@@ -33,17 +32,17 @@ doclear=${doclear:-0}
 
 # ----------------------------------------------------------------------
 trap_exit() {
-  echo "trap_exit ${retcode}"
+  [ $debug -eq 0 ] || echo "trap_exit ${retcode}"
   rm -fv ${tmpmd}
   exit ${retcode}
 }
 trap_error() {
   retcode=${FAILURE}
-  echo "trap_error ${retcode}"
+  [ $debug -eq 0 ] || echo "trap_error ${retcode}"
 }
 trap_force_quit() {
   retcode=${FAILURE}
-  echo "trap_force_quit ${retcode}"
+  [ $debug -eq 0 ] || echo "trap_force_quit ${retcode}"
 }
 # ----------------------------------------------------------------------
 # trap trap_force_quit *
@@ -70,17 +69,15 @@ DOHELP
 
 # ----------------------------------------------------------------------
 show_config() {
-    [ ${debug} -eq 1 ] && \
-        echo '============================================='
-        echo "here:         $here" && \
-        echo "script:       $script" && \
-        echo "startdir:     $startdir" && \
-        echo "website:      $website" && \
-        echo "css:          $css" && \
-        echo "doclear:      $doclear" && \
-        echo "mdfiles:      $mdfiles" && \
-        echo "bookname:     $bookname" && \
-        echo '============================================='
+    echo "============================================="
+    echo "here:         $here"
+    echo "script:       $script"
+    echo "startdir:     $startdir"
+    echo "website:      $website"
+    echo "css:          $css"
+    echo "doclear:      $doclear"
+    echo "bookname:     $bookname"
+    echo '============================================='
 }
 
 # ----------------------------------------------------------------------
@@ -94,6 +91,7 @@ prepare_book() {
     echo >> ${tmpmd}
     shift
   done
+  [ $debug -eq 0 ] || show_config
 }
 
 # ----------------------------------------------------------------------

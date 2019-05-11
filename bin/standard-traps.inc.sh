@@ -5,16 +5,16 @@
 
 # ----------------------------------------------------------------------
 trap_exit() {
-  echo "trap_exit ${retcode}"
+  [ $debug -eq 1 ] && echo "trap_exit ${retcode}"
   exit ${retcode}
 }
 trap_error() {
   retcode=${FAILURE}
-  echo "trap_error ${retcode}"
+  [ $debug -eq 1 ] && echo "trap_error ${retcode}"
 }
 trap_force_quit() {
   retcode=${FAILURE}
-  echo "trap_force_quit ${retcode}"
+  [ $debug -eq 1 ] && echo "trap_force_quit ${retcode}"
 }
 # ----------------------------------------------------------------------
 # trap trap_force_quit *
