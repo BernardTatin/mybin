@@ -93,6 +93,8 @@ prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
   while [ $# -gt 0 ]; do
+    ! [ -f "$1" ] \
+      && onerror $FAILURE "Cannot find this file: '$1'"
     cat "$1" >> ${tmpmd}
     echo >> ${tmpmd}
     shift
@@ -125,7 +127,7 @@ book() {
       -f markdown \
       -t html \
       $tmpmd \
-      -o ${bookname} || retcode=1
+      -o ${bookname} || onerror $FAILURE "pandoc failed"
 }
 # ----------------------------------------------------------------------
 article() {
@@ -141,7 +143,7 @@ article() {
       --pdf-engine=xelatex \
       -f markdown \
       $tmpmd \
-      -o ${bookname} || retcode=1
+      -o ${bookname} || onerror $FAILURE "pandoc failed"
 
 }
 

@@ -20,18 +20,17 @@ show_error() {
 }
 # onerror exit_code message ...
 onerror() {
-    local exit_code
-		exit_code=$1
+		retcode=$1
     shift
 
     show_error "$*" 1>&2
-    exit $exit_code
+    exit $retcode
 }
 
 
 ensureroot() {
 	echo "EUID : $EUID, UID : $UID"
-	[ $EUID -ne 0 ] && onerror "you must be root"
+	[ $EUID -ne 0 ] && onerror $FAILURE "you must be root"
 }
 
 # safe_source file file ...
@@ -44,7 +43,7 @@ safe_source() {
         then
             . ${file}
         else
-            onerror 1 "Cannot source ${file}"
+            onerror $FAILURE "Cannot source ${file}"
         fi
         shift
     done
@@ -54,13 +53,14 @@ get_tmp_file() {
     root_name='another-tmp-file'
     [ $# -gt 0 ] && \
         root_name=$1
-    mktemp /tmp/${root_name}.XXXXXX
+    mktemp /tmp/${root_name}.XXXXXX \
+			|| onerror $FAILURE "Cannot create temp file with base '$root_name'"
 }
 
 dohelp() {
     case "$#" in
         '0')
-            retcode=0
+            retcode=$SUCCESS
             ;;
         '1')
             retcode=$1
