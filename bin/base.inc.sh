@@ -1,5 +1,6 @@
 #!/bin/sh
 # This file must be included by a sh script
+# be careful: 'local' variables are not so local!
 
 script=$(basename $0)
 current_user=$USER
