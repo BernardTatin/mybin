@@ -8,7 +8,7 @@ set -u
 . $(dirname $0)/base.inc.sh
 safe_source ${here}/standard-traps.inc.sh
 
-echo "debug <- $debug // retcode <- $retcode"
+echo "debug <- $debug :: retcode <- $retcode"
 # ----------------------------------------------------------------------
 get_help_text() {
     cat <<DOHELP
