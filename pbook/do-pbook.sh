@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env  dash
 
 . $(dirname $0)/base.inc.sh
 
@@ -28,14 +28,7 @@ retcode=0
 
 rm -f ${tmpmd}
 
-dohelp() {
-    ecode=0
-    if [ $# -ne 0 ]
-    then
-        ecode=$1
-        shift
-        show_error "$@"
-    fi
+get_help_text() {
     cat << DOHELP
 ${script} -h|--help: this text
 ${script} article article-name.pdf FILES.md...: make a PDF book with all FILES.md
@@ -49,7 +42,6 @@ OPTIONS:
     --css css-file: css used, default ${css}
     --doclear: erase previous website, default false
 DOHELP
-    exit ${ecode}
 }
 
 show_config() {

@@ -55,3 +55,21 @@ get_tmp_file() {
         root_name=$1
     mktemp /tmp/${root_name}.XXXXXX
 }
+
+dohelp() {
+    case "$#" in
+        '0')
+            ecode=0
+            ;;
+        '1')
+            ecode=$1
+            ;;
+        *)
+            ecode=$1
+            shift
+            show_error "$*"
+            ;;
+    esac
+    get_help_text
+    exit ${ecode}
+}
