@@ -8,7 +8,7 @@ readonly current_user=$USER
 readonly SUCCESS=0
 readonly FAILURE=1
 
-debug=${debug:-0}
+readonly debug=${debug:-0}
 
 # variables
 retcode=$FAILURE
