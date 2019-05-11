@@ -2,11 +2,11 @@
 # This file must be included by a sh script
 # be careful: 'local' variables are not so local!
 
-script=$(basename $0)
-current_user=$USER
+readonly script=$(basename $0)
+readonly current_user=$USER
 
-SUCCESS=0
-FAILURE=1
+readonly SUCCESS=0
+readonly FAILURE=1
 
 standardize_dir() {
 	(cd $1 && pwd)
@@ -20,7 +20,8 @@ show_error() {
 }
 # onerror exit_code message ...
 onerror() {
-    exit_code=$1
+    local exit_code
+		exit_code=$1
     shift
 
     show_error "$*" 1>&2
@@ -59,17 +60,18 @@ get_tmp_file() {
 dohelp() {
     case "$#" in
         '0')
-            ecode=0
+            retcode=0
             ;;
         '1')
-            ecode=$1
+            retcode=$1
             ;;
         *)
-            ecode=$1
+            retcode=$1
             shift
             show_error "$*"
             ;;
     esac
     get_help_text
-    exit ${ecode}
+
+    exit ${retcode}
 }

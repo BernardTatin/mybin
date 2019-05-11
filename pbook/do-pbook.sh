@@ -1,10 +1,15 @@
-#!/usr/bin/env  dash
+#!/usr/bin/env dash
+#!/bin/sh
 
+
+# ----------------------------------------------------------------------
 set -e
 set -u
 
+# ----------------------------------------------------------------------
 . $(dirname $0)/base.inc.sh
 
+# ----------------------------------------------------------------------
 # generic configuration
 debug=${debug:-0}
 mdfiles=
@@ -16,37 +21,42 @@ css=${here:-$(dirname $ 0)}/pbook-styles/default.css
 # - article: combination of all md input files in one PDF made through LaTeX
 output_type=
 
+# ----------------------------------------------------------------------
 # book configuration
 makebook=${makebook:-0}
 bookname=
 tmpmd=$(get_tmp_file tmpmd)
 
+# ----------------------------------------------------------------------
 # website configuration
 startdir=${startdir:-'.'}
 website=${website:-'./fulldoc'}
 doclear=${doclear:-0}
 
 # variables
-retcode=${retcode:-$SUCCESS}
+retcode=${retcode:-$FAILURE}
 
-echo 'before:'
-trap
-
+# ----------------------------------------------------------------------
 trap_exit() {
+  echo "trap_exit ${retcode}"
   rm -fv ${tmpmd}
   exit ${retcode}
 }
-
 trap_error() {
   retcode=${FAILURE}
+  echo "trap_error ${retcode}"
 }
-trap trap_error INT QUIT KILL TERM
+trap_force_quit() {
+  retcode=${FAILURE}
+  echo "trap_force_quit ${retcode}"
+}
+# ----------------------------------------------------------------------
+# trap trap_force_quit *
+trap trap_force_quit TERM TSTP INT QUIT
+trap trap_error HUP ILL ABRT FPE SEGV PIPE
 trap trap_exit EXIT
 
-echo 'after'
-trap
-exit
-
+# ----------------------------------------------------------------------
 get_help_text() {
     cat << DOHELP
 ${script} -h|--help: this text
@@ -63,6 +73,7 @@ OPTIONS:
 DOHELP
 }
 
+# ----------------------------------------------------------------------
 show_config() {
     [ ${debug} -eq 1 ] && \
         echo '============================================='
@@ -77,6 +88,7 @@ show_config() {
         echo '============================================='
 }
 
+# ----------------------------------------------------------------------
 prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
@@ -87,6 +99,7 @@ prepare_book() {
   done
 }
 
+# ----------------------------------------------------------------------
 book() {
   echo "book $*"
   bookname=$1
@@ -114,6 +127,7 @@ book() {
       $tmpmd \
       -o ${bookname} || retcode=1
 }
+# ----------------------------------------------------------------------
 article() {
   bookname=$1
   shift
@@ -131,11 +145,13 @@ article() {
 
 }
 
+# ----------------------------------------------------------------------
 [ $# -eq 0 ] && dohelp
 
 output_type=$1
 shift
 
+# ----------------------------------------------------------------------
 case ${output_type} in
   -h|--help)
     dohelp
@@ -147,10 +163,12 @@ case ${output_type} in
     article "$@"
     ;;
   website)
-    dohelp 1 "no code for this"
+    dohelp 0 "no code for this"
     # website "$@"
     ;;
   *)
     dohelp
     ;;
 esac
+
+retcode=$SUCCESS
