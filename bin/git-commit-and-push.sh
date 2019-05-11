@@ -6,30 +6,8 @@ set -u
 
 # ----------------------------------------------------------------------
 . $(dirname $0)/base.inc.sh
+safe_source ${here}/standard-traps.inc.sh 
 
-
-# ----------------------------------------------------------------------
-# variables
-retcode=${retcode:-$FAILURE}
-
-# ----------------------------------------------------------------------
-trap_exit() {
-  echo "trap_exit ${retcode}"
-  exit ${retcode}
-}
-trap_error() {
-  retcode=${FAILURE}
-  echo "trap_error ${retcode}"
-}
-trap_force_quit() {
-  retcode=${FAILURE}
-  echo "trap_force_quit ${retcode}"
-}
-# ----------------------------------------------------------------------
-# trap trap_force_quit *
-trap trap_force_quit TERM TSTP INT QUIT
-trap trap_error HUP ILL ABRT FPE SEGV PIPE
-trap trap_exit EXIT
 # ----------------------------------------------------------------------
 get_help_text() {
     cat <<DOHELP

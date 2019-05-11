@@ -31,9 +31,6 @@ startdir=${startdir:-'.'}
 website=${website:-'./fulldoc'}
 doclear=${doclear:-0}
 
-# variables
-retcode=${retcode:-$FAILURE}
-
 # ----------------------------------------------------------------------
 trap_exit() {
   echo "trap_exit ${retcode}"
