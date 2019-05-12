@@ -36,9 +36,14 @@ $ disk-space-leak.sh ~/
 
 Les tailles des répertoires sont données en mégaoctets. La syntaxe est la suivante:
 
-- `disk-space-leak.sh --help`: affiche une aide minimale,
-- `disk-space-leak.sh dir dir ...`: affiche les 3 plus gros objets (répertoire ou fichiers) des répertoires cités,
-- `disk-space-leak.sh`: équivaut à `disk-space-leak.sh *`.
+- `disk-space-leak.sh -h|--help`: affiche une aide minimale,
+- `disk-space-leak.sh [OPTIONS] [dir [dir ...]]`: affiche les 3 plus gros objets (répertoire ou fichiers) des répertoires cités.
+
+Les options sont les suivante:
+
+- `-N|--number-of-dirs n`, avec `n` étant le nombre de répertoires à afficher, défaut: 3,
+- `-u|--unit u`, avec `u` étant l'unité de mesure de la taille, soit `K`, `M` ou `G` pour kilo-octets, mégaoctets et gigaoctets, défaut: `M` (*cf.* `man du` pour plus de détails).
+
 
 ## `domerge.sh`
 

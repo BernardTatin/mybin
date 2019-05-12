@@ -21,9 +21,8 @@ unit=M
 get_help_text() {
    cat <<HELP
 $script -h|--help: this text
-$script: as $script *
-$script [OPTIONS] dir dir ...: show the 3 biggest directories/files
-
+$script [OPTIONS] [dir [dir ...]]: show the 3 biggest directories/files
+  dir: optional list of directories, default='*'
 OPTIONS:
   -N|--number-of-dirs n: number of directories to show, default=3
   -u|--unit u: unit of measurement, default=M (megabytes)
