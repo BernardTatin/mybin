@@ -12,7 +12,7 @@ set -u
 css=${here:-$(dirname $ 0)}/pbook-styles/default.css
 
 # can be:
-# - website: same directory tree but with html instead of md files
+# - webpage: same directory tree but with html instead of md files
 # - book:    combination of all md input files in one PDF made through wkhtmltopdf, using CSS
 # - article: combination of all md input files in one PDF made through LaTeX
 output_type=
@@ -24,15 +24,17 @@ bookname=
 tmpmd=$(get_tmp_file tmpmd)
 
 # ----------------------------------------------------------------------
-# website configuration
+# webpage configuration
 startdir=${startdir:-'.'}
-website=${website:-'./fulldoc'}
+webpage=${webpage:-'./fulldoc'}
 doclear=${doclear:-0}
+tmpcss=
 
 # ----------------------------------------------------------------------
 trap_exit() {
   [ $debug -eq 0 ] || echo "trap_exit ${retcode}"
   rm -fv ${tmpmd}
+  [ -z "$tmpcss" ] || rm -fv ${tmpcss}
   exit ${retcode}
 }
 trap_error() {
@@ -57,12 +59,12 @@ ${script} article article-name.pdf FILES.md...: make a PDF book with all FILES.m
 ${script} book book-name.pdf [--css cssfile] FILES.md...: make a PDF book with all FILES.md
 OPTIONS:
     --css css-file: css used, default ${css}
-${script} website [--startdir dir] [--website dir] [--css cssfile] [--doclear]: convert all markdown files of current dir to HTML in the website dir
+${script} webpage [--startdir dir] [--webpage dir] [--css cssfile] [--doclear]: convert all markdown files of current dir to HTML in the webpage dir
 OPTIONS:
     --startdir dir: source dir of Markdown files, default ${startdir}
-    --website dir: destination dir of PDF files, default ${website}
+    --webpage dir: destination dir of PDF files, default ${webpage}
     --css css-file: css used, default ${css}
-    --doclear: erase previous website, default false
+    --doclear: erase previous webpage, default false
 DOHELP
 }
 
@@ -72,7 +74,7 @@ show_config() {
     echo "here:         $here"
     echo "script:       $script"
     echo "startdir:     $startdir"
-    echo "website:      $website"
+    echo "webpage:      $webpage"
     echo "css:          $css"
     echo "doclear:      $doclear"
     echo "bookname:     $bookname"
@@ -83,7 +85,9 @@ show_config() {
 prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
-  ymlfile=$(dirname ${bookname})/$(basename ${bookname} .pdf).yml
+  output_extension=$1
+  shift
+  ymlfile=$(dirname ${bookname})/$(basename ${bookname} ${output_extension}).yml
   [ -f ${ymlfile} ] && cp ${ymlfile} ${tmpmd}
   while [ $# -gt 0 ]; do
     ! [ -f "$1" ] \
@@ -111,7 +115,7 @@ book() {
       ;;
   esac
   [ $# -eq 0 ] && dohelp ${FAILURE} "a book needs markdown files in input"
-  prepare_book "$@"
+  prepare_book '.pdf' "$@"
   pandoc --standalone \
       --toc \
       --reference-links \
@@ -128,7 +132,7 @@ article() {
   bookname=$1
   shift
   [ $# -eq 0 ] && dohelp ${FAILURE} "an article needs markdown files in input"
-  prepare_book "$@"
+  prepare_book '.pdf' "$@"
   pandoc --standalone \
       --toc \
       --reference-links \
@@ -144,7 +148,25 @@ article() {
       -o ${bookname} || onerror $FAILURE "pandoc failed"
 
 }
-
+webpage() {
+  bookname=$1
+  shift
+  [ $# -eq 0 ] && dohelp ${FAILURE} "a webpage needs markdown files in input"
+  prepare_book '.html' "$@"
+  tmpcss=$(get_tmp_file css)
+  echo '<style type="text/css">' > $tmpcss
+  cat $css >> $tmpcss
+  echo '</style>' >> $tmpcss
+  pandoc --standalone \
+      --toc \
+      --reference-links \
+      --number-sections \
+      --highlight-style pygments \
+      --include-in-header=${tmpcss} \
+      -f markdown \
+      $tmpmd \
+      -o ${bookname} || onerror $FAILURE "pandoc failed"
+}
 # ----------------------------------------------------------------------
 [ $# -eq 0 ] && dohelp
 
@@ -162,9 +184,8 @@ case ${output_type} in
   article)
     article "$@"
     ;;
-  website)
-    dohelp 0 "no code for this"
-    # website "$@"
+  webpage)
+    webpage "$@"
     ;;
   *)
     dohelp
