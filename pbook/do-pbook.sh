@@ -83,6 +83,8 @@ show_config() {
 prepare_book() {
   [ -z "$bookname" ] && \
     dohelp ${FAILURE} "you need a book file name"
+  ymlfile=$(dirname ${bookname})/$(basename ${bookname} .pdf).yml
+  [ -f ${ymlfile} ] && cp ${ymlfile} ${tmpmd}
   while [ $# -gt 0 ]; do
     ! [ -f "$1" ] \
       && onerror $FAILURE "Cannot find this file: '$1'"
@@ -132,6 +134,10 @@ article() {
       --reference-links \
       --number-sections \
       --template=eisvogel \
+      -V documentclass=article \
+      -V familydefault=cmr \
+      -V fontsize=12pt \
+      --highlight-style pygments \
       --pdf-engine=xelatex \
       -f markdown \
       $tmpmd \

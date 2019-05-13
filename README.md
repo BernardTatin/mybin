@@ -1,17 +1,3 @@
----
-author: "Bernard Tatin"
-title: "Histoires de shells"
-date: "Mai 2019"
-lang: fr-FR
-titlepage: on
-toc-own-page: on
-book: false
-abstract: |
-  Le shell est un élément indispensable lorsqu'on travaille
-  sous *Unix*. Voici de quoi améliorer ses compétences.
-
-  Des notes à propos des shells et de l'administration _Linux_ et des scripts, beaucoup de scripts.
----
 # README
 
 ## installation/désinstallation
