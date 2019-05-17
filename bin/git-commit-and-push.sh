@@ -23,8 +23,13 @@ case $1 in
         ;;
 esac
 
-git add --all || onerror $FAILURE "git add --all failure"
-git commit -m "$@" || onerror $FAILURE "git commit failure"
-git push || onerror "git push failure"
+if [ -z "$(git status --porcelain)" ]
+then
+  echo "Nothing to commit and push"
+else
+  git add --all || onerror $FAILURE "git add --all failure"
+  git commit -m "$@" || onerror $FAILURE "git commit failure"
+  git push || onerror "git push failure"
+fi
 
 retcode=$SUCCESS
