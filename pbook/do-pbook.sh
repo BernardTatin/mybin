@@ -22,7 +22,7 @@ output_type=
 makebook=${makebook:-0}
 bookname=
 tmpmd=$(get_tmp_file tmpmd)
-
+template=eisvogel
 # ----------------------------------------------------------------------
 # webpage configuration
 startdir=${startdir:-'.'}
@@ -55,10 +55,15 @@ trap trap_exit EXIT
 get_help_text() {
     cat << DOHELP
 ${script} -h|--help: this text
-${script} article article-name.pdf FILES.md...: make a PDF book with all FILES.md
+
+${script} article article-name.pdf [-t|--template template-name] FILES.md...: make a PDF article with all FILES.md
+OPTIONS:
+  -t|template template-name: name of the LaTeX template
+
 ${script} book book-name.pdf [--css cssfile] FILES.md...: make a PDF book with all FILES.md
 OPTIONS:
     --css css-file: css used, default ${css}
+
 ${script} webpage [--startdir dir] [--webpage dir] [--css cssfile] [--doclear]: convert all markdown files of current dir to HTML in the webpage dir
 OPTIONS:
     --startdir dir: source dir of Markdown files, default ${startdir}
@@ -109,7 +114,6 @@ book() {
       shift
       [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a css name"
       css="$1"
-      shift
       ;;
     *)
       ;;
@@ -131,13 +135,26 @@ book() {
 article() {
   bookname=$1
   shift
+  case $1 in
+    -t|--template)
+      shift
+      [ $# -eq 0 ] && dohelp ${FAILURE} "$1 must be followed by a template name"
+      template=$1
+      shift
+      ;;
+    *)
+      ;;
+  esac
+
+
   [ $# -eq 0 ] && dohelp ${FAILURE} "an article needs markdown files in input"
   prepare_book '.pdf' "$@"
+  echo "article template: ${template}"
   pandoc --standalone \
       --toc \
       --reference-links \
       --number-sections \
-      --template=eisvogel \
+      --template=${template} \
       -V documentclass=article \
       -V familydefault=cmr \
       -V fontsize=12pt \

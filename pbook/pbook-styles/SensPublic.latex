@@ -1,7 +1,7 @@
-\documentclass[12pt,$if(lang)$$babel-lang$$endif$,letterpaper,$for(classoption)$$classoption$$sep$,$endfor$]{article}
+\documentclass[12pt,$if(lang)$$babel-lang$,letterpaper,$endif$$for(classoption)$$classoption$$sep$,$endfor$]{article}
   \usepackage[utf8]{inputenc}
-\usepackage[english,french,$if(lang)$main=$babel-lang$$endif$]{babel}
-
+\usepackage[french,english]{babel}
+%% \usepackage[french,english,spanish,italian,portuguese,german,ukrainian,arabic]{babel}
 \usepackage{epigraph}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -15,11 +15,12 @@
 
 \newcommand{\fr}{\selectlanguage{french}}
 \newcommand{\en}{\selectlanguage{english}}
-\newcommand{\pt}{\selectlanguage{portuguese}}
-\newcommand{\de}{\selectlanguage{german}}
-\newcommand{\uk}{\selectlanguage{ukrainian}}
-\newcommand{\ita}{\selectlanguage{italian}}
-\newcommand{\ar}{\selectlanguage{arabic}}
+%% \newcommand{\es}{\selectlanguage{spanish}}
+%% \newcommand{\pt}{\selectlanguage{portuguese}}
+%% \newcommand{\de}{\selectlanguage{german}}
+%% \newcommand{\uk}{\selectlanguage{ukrainian}}
+%% \newcommand{\ita}{\selectlanguage{italian}}
+%% \newcommand{\ar}{\selectlanguage{arabic}}
 $if(fontfamily)$
 \usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
 $else$
@@ -241,7 +242,7 @@ $endif$
 \date{}
 
 \begin{document}
-\$lang$
+
 \thispagestyle{empty}
 \begin{center}
 %% \includegraphics[width=50mm]{media/logo.png}\\
@@ -259,9 +260,9 @@ $endif$\\
 \end{center}
 
 \vspace*{\fill}
-\begin{flushright}
-\includegraphics[width=15mm]{media/crochets.png}
-\end{flushright}
+%% \begin{flushright}
+%% \includegraphics[width=15mm]{media/crochets.png}
+%% \end{flushright}
 
 \begin{center}
 $rights$
@@ -284,64 +285,54 @@ $abstract.text_f$
 $endfor$
 $endif$
 
-$if(keyword_fr_f)$
 \thispagestyle{empty}
-\selectlanguage{french}
+$if(keyword_fr_f)$
 \textbf{Mots-clés}:
 $keyword_fr_f$
 $endif$
 
-$if(keyword_en_f)$
 \thispagestyle{empty}
-\selectlanguage{english}
+$if(keyword_en_f)$
 \textbf{Keywords}:
 $keyword_en_f$
 $endif$
 
-$if(keyword_es_f)$
 \thispagestyle{empty}
-% \selectlanguage{spanish}
+$if(keyword_es_f)$
 \textbf{Keywords}:
-% $keyword_es_f$
+$keyword_es_f$
 $endif$
 
-$if(keyword_it_f)$
 \thispagestyle{empty}
-\selectlanguage{italian}
+$if(keyword_it_f)$
 \textbf{Keywords}:
 $keyword_it_f$
 $endif$
 
-$if(keyword_pt_f)$
 \thispagestyle{empty}
-%% \selectlanguage{portuguese}
+$if(keyword_pt_f)$
 \textbf{Keywords}:
-%% $keyword_pt_f$
+$keyword_pt_f$
 $endif$
 
-$if(keyword_de_f)$
 \thispagestyle{empty}
-\selectlanguage{german}
+$if(keyword_de_f)$
 \textbf{Keywords}:
 $keyword_de_f$
 $endif$
 
-$if(keyword_uk_f)$
 \thispagestyle{empty}
-\selectlanguage{ukrainian}
+$if(keyword_uk_f)$
 \textbf{Keywords}:
 $keyword_uk_f$
 $endif$
 
-$if(keyword_ar_f)$
 \thispagestyle{empty}
-\selectlanguage{arabic}
+$if(keyword_ar_f)$
 \textbf{Keywords}:
 $keyword_ar_f$
 $endif$
 
-
-\$lang$
 
 $for(include-before)$
 $include-before$
@@ -364,7 +355,6 @@ $if(lof)$
 $endif$
 \newpage \thispagestyle{empty}
 \maketitle
-\$lang$
 $body$
 
 $if(natbib)$

@@ -1,14 +1,18 @@
 ---
 author: "Bernard Tatin"
+authors:
+- forname: Tatin
+  surname: Bernard
 title: "Histoires de shells"
+title_f: "Histoires de *shells*"
 date: "Mai 2019"
-lang: fr-FR
+lang: fr
 titlepage: on
 toc-own-page: on
 abstract: |
   Le shell est un élément indispensable lorsqu'on travaille
   sous *Unix*. Voici de quoi améliorer ses compétences.
-
+  
   Des notes à propos des shells et de l'administration _Linux_ ou _BSD_
   et des scripts, beaucoup de scripts.
 ---
