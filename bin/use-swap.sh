@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
     # find-out-what-is-using-your-swap.sh
     # -- Get current swap usage for all running processes
@@ -32,17 +32,17 @@ do
 
     for SWAP in `grep Swap $DIR/smaps 2>/dev/null| awk '{ print $2 }'`
     do
-        let SUM=$SUM+$SWAP
+        SUM=$(($SUM+$SWAP))
     done
 
-    if (( $SUM > 0 ));
+    if [ $SUM -gt 0 ]
     then
-        echo -n ".";
-        echo -e "${PID}\t${SUM}\t${PROGNAME}" >> ${TMP}/${SCRIPT_NAME}.pid;
-        echo -e "${SUM}\t${PID}\t${PROGNAME}" >> ${TMP}/${SCRIPT_NAME}.kb;
-        echo -e "${PROGNAME}\t${SUM}\t${PID}" >> ${TMP}/${SCRIPT_NAME}.name;
+      echo -n ".";
+      printf "%5s %9s %s\n" ${PID} ${SUM} ${PROGNAME} >> ${TMP}/${SCRIPT_NAME}.pid;
+      printf "%9s %5s %s\n" ${SUM} ${PID} ${PROGNAME} >> ${TMP}/${SCRIPT_NAME}.kb;
+      printf "%32s %9s %5s\n" ${PROGNAME} ${SUM} ${PID} >> ${TMP}/${SCRIPT_NAME}.name;
     fi
-    let OVERALL=$OVERALL+$SUM
+    OVERALL=$(($OVERALL+$SUM))
     SUM=0
 done
 echo "${OVERALL}" > ${TMP}/${SCRIPT_NAME}.overal;
@@ -51,19 +51,19 @@ echo "Overall swap used: ${OVERALL} kB";
 echo "========================================";
 case "${SORT}" in
     name )
-        echo -e "name\tkB\tpid";
+        printf "%-32s %-9s %-5s\n" name kB pid
         echo "========================================";
         cat ${TMP}/${SCRIPT_NAME}.name|sort -r;
         ;;
 
     kb )
-        echo -e "kB\tpid\tname";
+        printf "%-9s %-5s %s\n" kB pid name
         echo "========================================";
         cat ${TMP}/${SCRIPT_NAME}.kb|sort -rh;
         ;;
 
     pid | * )
-        echo -e "pid\tkB\tname";
+        printf "%-5s %-9s %s\n" pid kB name
         echo "========================================";
         cat ${TMP}/${SCRIPT_NAME}.pid|sort -rh;
         ;;

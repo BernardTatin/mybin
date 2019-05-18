@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env dash
 
 script=$(basename $0)
 now=$(date "+%y%m%d")
@@ -11,7 +11,7 @@ freemem=$(( 1 - MINDMEM ))
 freeswap=$(( 1 - MINDSWAP ))
 doit=0
 loops=0
-deltat=10 
+deltat=10
 PRINTF=/usr/bin/printf
 
 

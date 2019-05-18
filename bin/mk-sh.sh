@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env dash
 
 script=$(basename $0)
 script_dir=$(dirname $0)
@@ -8,7 +8,7 @@ dohelp() {
 
 	[ $# -gt 0 ] && exit_code=$1 && shift
 	[ $# -gt 0 ] && echo "ERROR: $*" 1>&2
-	
+
 	cat >> DOHELP
 ${script} [-h|--help] : this message
 ${script} name name ... : shell script names
@@ -25,10 +25,10 @@ script_dir=\$(dirname \$0)
 
 dohelp() {
 	exit_code=0
-	
+
 	[ \$# -gt 0 ] && exit_code=\$1 && shift
 	[ \$# -gt 0 ] && echo "ERROR: \$*" 1>&2
-	
+
 	cat >> DOHELP
 \${script} [-h|--help] : this message
 \${script} name name ... : shell script names
