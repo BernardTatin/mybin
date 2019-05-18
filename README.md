@@ -1,6 +1,6 @@
-# README
+# à propos...
 
-## installation/désinstallation
+## installation/désinstallation des scripts
 
 Les scripts **`install.sh`** et **`uninstall.sh`** sont là pour faire ce job. Pour le moment (mai 2019), ces deux scripts ne prennent aucun paramètres. Au besoin, modifiez la variable **`PREFIX`** dans chacun d'eux, cette variable défini le répertoire de base de l'installation.
 

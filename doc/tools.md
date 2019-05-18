@@ -13,7 +13,9 @@ Voici la liste actuelle:
 - `mkusers`
 - `use-swap.sh`
 
-Ils utilisent tous, ou presque, `base.inc.sh` qui est *sourcé*.
+Ils utilisent tous, ou presque, `base.inc.sh` et `standard-traps.inc.sh` qui sont *sourcés*.
+
+Sauf exception, ils sont écrits pour *`dash`* qui est une version du *Bourne Shell* sans *bashismes*.
 
 ## `debian-autoremove.sh`
 
