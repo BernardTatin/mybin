@@ -113,7 +113,7 @@ $endif$
 %% for another bug
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-  
+
 % Font:
 % Here I set my main font, which is an Apple Corporation Exclusive, golly.
 
@@ -126,8 +126,11 @@ $endif$
 % If you have a copy you might try it; as it is
 % I will comment it out and supply something more certain to be around:
 
-\setmainfont{Times New Roman}
-
+%% \setmainfont{Times New Roman}
+\setmainfont{CMU Serif}
+%% \setmainfont{EB Garamond}
+%% \setmonofont{CMU Typewriter Text}
+\setmonofont{ProFont for Powerline}
 % Properly one should specify a sanserif font and a monospace font
 % see e.g. the example of Kieran Healy:
 % \setromanfont[Mapping=tex-text,Numbers=OldStyle]{Minion Pro}
@@ -341,6 +344,16 @@ $endif$
 $if(title)$
 \maketitle
 $endif$
+
+\bigskip
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+\bigskip
 
 $if(toc)$
 \tableofcontents
