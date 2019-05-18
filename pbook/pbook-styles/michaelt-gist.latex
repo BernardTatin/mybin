@@ -1,6 +1,9 @@
 %!TEX TS-program = xelatex
 \documentclass[12pt]{scrartcl}
 
+%% this file come from https://gist.github.com/michaelt/1017790
+%% modifications are mine
+
 % The declaration of the document class:
 
 % The second line here, i.e.
@@ -130,7 +133,11 @@ $endif$
 \setmainfont{CMU Serif}
 %% \setmainfont{EB Garamond}
 %% \setmonofont{CMU Typewriter Text}
-\setmonofont{ProFont for Powerline}
+\setromanfont[Numbers=OldStyle]{CMU Serif}
+\setsansfont[Numbers=OldStyle]{CMU Sans Serif}
+\setmonofont[Numbers=OldStyle]{CMU Typewriter Text}
+%% \setmonofont{ProFont for Powerline}
+
 % Properly one should specify a sanserif font and a monospace font
 % see e.g. the example of Kieran Healy:
 % \setromanfont[Mapping=tex-text,Numbers=OldStyle]{Minion Pro}
@@ -139,14 +146,11 @@ $endif$
 
 % But I hate sanserif fonts, and anyway there are defaults.
 
-
-
 % Heading styles:
 % These commands keep the koma system from making stupid sans serif section headings
-\setkomafont{title}{\rmfamily\mdseries\upshape\normalsize}
-\setkomafont{sectioning}{\rmfamily\mdseries\upshape\normalsize}
-\setkomafont{descriptionlabel}{\rmfamily\mdseries\upshape\normalsize}
-
+%% \setkomafont{title}{\rmfamily\mdseries\upshape\normalsize}
+%% \setkomafont{sectioning}{\rmfamily\mdseries\upshape\normalsize}
+%% \setkomafont{descriptionlabel}{\rmfamily\mdseries\upshape\normalsize}
 
 
 % I'm puzzled why I have this foonote speciality,
@@ -171,7 +175,18 @@ $endif$
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 
 % Page format:
-\pagestyle{plain}
+%% cf. http://pfercour.free.fr/stock/fancyhdr_fr.pdf
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[LE,RO]{}
+\fancyhead[LO,RE]{\slshape \leftmark}
+
+\fancyfoot{}
+\fancyfoot[C]{\thepage}
+
+%% \headrulewidth  0.4pt
+%% \footrulewidth  0pt
 % The default `plain` pagestyle just numbers the pages,
 % whereas
 % \pagestyle{empty}
@@ -246,13 +261,13 @@ $endif$
 % [breaklinks=true] to the rescue!
 
 % Nowadays LaTeX can handle all of this with another half million macros:
-
+\usepackage[dvipsnames]{xcolor}
 \usepackage[breaklinks=true]{hyperref}
 \hypersetup{colorlinks,%
   citecolor=blue,%
   filecolor=blue,%
   linkcolor=blue,%
-  urlcolor=blue
+  urlcolor=OliveGreen
 }
 
 %% $if(url)$
