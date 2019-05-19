@@ -1,5 +1,19 @@
 %!TEX TS-program = xelatex
-\documentclass[12pt]{scrartcl}
+\documentclass[
+$if(fontsize)$
+  $fontsize$,
+$else$
+  12pt,
+$endif$
+$if(lang)$
+  $babel-lang$,
+$endif$
+$if(papersize)$
+  $papersize$paper,
+$else$
+  a4paper,
+$endif$
+]{scrartcl}
 
 %% this file come from https://gist.github.com/michaelt/1017790
 %% modifications are mine
@@ -96,7 +110,7 @@
 % The `babel` package, among other things, lets you determine what
 % language you are using in a given stretch of text, so that typesetting
 % will go well. Here we specify that mostly, we are speaking English:
-\usepackage[english]{babel}
+%% \usepackage[french,english]{babel}
 
 
 % Margins, etc:
@@ -264,6 +278,24 @@ $endif$
 \usepackage[dvipsnames]{xcolor}
 \usepackage[breaklinks=true]{hyperref}
 \hypersetup{colorlinks,%
+% add PDF properties
+% taken from Eisvogel template
+  pdfcreator={LaTeX via pandoc with a (modified) template from Michael T. (https://gist.github.com/michaelt)},
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
   citecolor=blue,%
   filecolor=blue,%
   linkcolor=blue,%
@@ -315,6 +347,7 @@ $endif$
 $if(verbatim-in-note)$
 \VerbatimFootnotes % -- allows verbatim text in footnotes
 $endif$
+
 
 % Other stuff you specify on the command line:
 % You can include stuff for the header from a file specified on the command line;
