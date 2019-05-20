@@ -5,9 +5,6 @@ $if(fontsize)$
 $else$
   12pt,
 $endif$
-$if(lang)$
-  $babel-lang$,
-$endif$
 $if(papersize)$
   $papersize$paper,
 $else$
@@ -110,7 +107,11 @@ $endif$
 % The `babel` package, among other things, lets you determine what
 % language you are using in a given stretch of text, so that typesetting
 % will go well. Here we specify that mostly, we are speaking English:
-%% \usepackage[french,english]{babel}
+$if(babel)$
+\usepackage[$babel$]{babel}
+$else$
+\usepackage[english]{babel}
+$endif$
 
 
 % Margins, etc:
@@ -144,13 +145,21 @@ $endif$
 % I will comment it out and supply something more certain to be around:
 
 %% \setmainfont{Times New Roman}
-\setmainfont{CMU Serif}
 %% \setmainfont{EB Garamond}
 %% \setmonofont{CMU Typewriter Text}
-\setromanfont[Numbers=OldStyle]{CMU Serif}
-\setsansfont[Numbers=OldStyle]{CMU Sans Serif}
-\setmonofont[Numbers=OldStyle]{CMU Typewriter Text}
 %% \setmonofont{ProFont for Powerline}
+$if(mainfont)$
+\setmainfont{$mainfont$}
+$endif$
+$if(romanfont)$
+\setromanfont[Numbers=OldStyle]{$romanfont$}
+$endif$
+$if(sansfont)$
+\setsansfont[Numbers=OldStyle]{$sansfont$}
+$endif$
+$if(monofont)$
+\setmonofont[Numbers=OldStyle]{$monofont$}
+$endif$
 
 % Properly one should specify a sanserif font and a monospace font
 % see e.g. the example of Kieran Healy:

@@ -9,6 +9,15 @@ date: "Mai 2019"
 lang: fr
 titlepage: on
 toc-own-page: on
+
+fontsize: 12pt
+papersize: a4paper
+babel: french
+mainfont: Irianis ADF Std
+romanfont: Irianis ADF Std
+sansfont:  Irianis ADF Std
+monofont: monofur for Powerline
+
 abstract: |
   Le shell est un élément indispensable lorsqu'on travaille
   sous *Unix*. Voici de quoi améliorer ses compétences.
