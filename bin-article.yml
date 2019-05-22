@@ -13,9 +13,9 @@ toc-own-page: on
 fontsize: 12pt
 papersize: a4paper
 babel: french
-mainfont: Irianis ADF Std
-romanfont: Irianis ADF Std
-sansfont:  Irianis ADF Std
+mainfont: Old Standard TT
+romanfont: Old Standard TT
+sansfont:  Old Standard TT
 monofont: monofur for Powerline
 
 abstract: |
