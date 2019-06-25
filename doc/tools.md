@@ -31,9 +31,9 @@ Ce script affiche les trois répertoires qui occupent le plus de place depuis la
 
 ```sh
 $ disk-space-leak.sh ~/
-82240	/home/bernard//Pictures
-19111	/home/bernard//VirtualBox VMs
-13174	/home/bernard//emulation
+82240    /home/bernard//Pictures
+19111    /home/bernard//VirtualBox VMs
+13174    /home/bernard//emulation
 ```
 
 Les tailles des répertoires sont données en mégaoctets. La syntaxe est la suivante:
@@ -45,7 +45,6 @@ Les options sont les suivante:
 
 - `-N|--number-of-dirs n`, avec `n` étant le nombre de répertoires à afficher, défaut: 3,
 - `-u|--unit u`, avec `u` étant l'unité de mesure de la taille, soit `K`, `M` ou `G` pour kilo-octets, mégaoctets et gigaoctets, défaut: `M` (*cf.* `man du` pour plus de détails).
-
 
 ## `domerge.sh`
 
