@@ -16,7 +16,7 @@ babel: french
 mainfont: Old Standard TT
 romanfont: Old Standard TT
 sansfont:  Old Standard TT
-monofont: monofur for Powerline
+monofont: Cousine
 
 abstract: |
   Le shell est un élément indispensable lorsqu'on travaille

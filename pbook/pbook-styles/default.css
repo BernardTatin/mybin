@@ -6,7 +6,8 @@
 
 body {
     margin: auto;
-    font-family: "CMU Serif", serif;
+    /* font-family: "Accanthis ADF Std", "CMU Serif", serif; */
+    font-family: "CMU Serif Extra", "CMU Serif", serif;
 }
 
 @media screen {
@@ -71,4 +72,5 @@ h3,h4,h5,h6 {
 p, ul, ol {
     text-align: justify;
     padding-left: 3rem;
+    line-height: 1.6rem;
 }
