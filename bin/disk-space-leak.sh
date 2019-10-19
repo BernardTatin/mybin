@@ -1,4 +1,6 @@
-#!/usr/bin/env dash
+#!/bin/sh
+
+# #!/usr/bin/env dash
 
 # show the first 3 directories/files which
 # occupie the most disk space
@@ -15,8 +17,16 @@ safe_source ${here}/standard-traps.inc.sh
 # the du command with parameters:
 # -s : summarize each elements
 # -BM : values in megabytes
+_os=$(uname)
 number_of_dirs=3
 unit=M
+case ${_os} in
+    SunOS)
+        unit=m
+        ;;
+    *)
+        ;;
+esac
 
 get_help_text() {
    cat <<HELP
@@ -58,6 +68,14 @@ continue_loop=1
     done
 
 _du="du -s -B${unit}"
+case ${_os} in
+    SunOS)
+        _du="/usr/bin/du -s -${unit}"
+        ;;
+    *)
+        ;;
+esac
+
 case $# in
    0)
       ${_du} ./*
