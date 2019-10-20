@@ -26,7 +26,19 @@ DOHELP
               ;;
      esac
 # ----------------------------------------------------------------------
-PREFIX=${PREFIX:-/usr/local}
+_os=$(uname)
+case ${_os} in
+    SunOS)
+        set +u
+        [ -z "$PREFIX" ] && PREFIX=${HOME}
+        set -u
+        ;;
+    *)
+        set +u
+        [ -z "$PREFIX" ] && PREFIX=/usr/local}
+        set -u
+        ;;
+esac
 
 echo "Désinstallation des scripts indispensables..."
 

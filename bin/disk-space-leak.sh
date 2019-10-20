@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env dash
 
-# #!/usr/bin/env dash
+#!/bin/sh
 
 # show the first 3 directories/files which
 # occupie the most disk space
@@ -36,7 +36,7 @@ $script [OPTIONS] [dir [dir ...]]: show the 3 biggest directories/files
 OPTIONS:
   -N|--number-of-dirs n: number of directories to show, default=3
   -u|--unit u: unit of measurement, default=M (megabytes)
-      can be K or G but see man du
+      can be K or G but see man du (SunOS uses m or k)
 HELP
 }
 
