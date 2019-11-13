@@ -40,12 +40,14 @@ set -u
         CP_OPT=-va
         CP_ROPT=-Rva
 set +u
-        [ -z "$PREFIX" ] && PREFIX=/usr/local}
+        [ -z "$PREFIX" ] && PREFIX=/usr/local
 set -u
         ;;
 esac
 
-
+! [ -d "$PREFIX" ] \
+	&& onerror 1 "$PREFIX n'est pas un répertoire ou n'existe pas"
+mkdir -p $PREFIX/bin
 echo "Installation des scripts indispensables dans ${PREFIX}..."
 
 for f in ${here}/bin/*
