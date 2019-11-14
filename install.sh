@@ -53,6 +53,7 @@ echo "Installation des scripts indispensables dans ${PREFIX}..."
 for f in ${here}/bin/*
 do
   echo "Installation de $f ..."
+  chmod +x $f
   cp ${CP_OPT} $f ${PREFIX}/bin
 done
 
