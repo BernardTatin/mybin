@@ -1,5 +1,6 @@
 # IDEs
 .*.swp
+tags
 
 # archives
 *.zip

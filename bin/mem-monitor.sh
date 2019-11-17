@@ -12,10 +12,10 @@ freeswap=$(( 1 - MINDSWAP ))
 doit=0
 loops=0
 deltat=10
-PRINTF=/usr/bin/printf
+PRINTF=$(which printf)
 
 
-function get_mem_info () {
+get_mem_info() {
 	local regex=$1
 	local dmem=0
 	local value=$(egrep "${regex}" /proc/meminfo | tr -s ' ' | cut -d ' ' -f 2)
@@ -25,7 +25,7 @@ function get_mem_info () {
 	echo $value
 }
 
-function delta_mem () {
+delta_mem() {
 	local newvalue=$1
 	local oldvalue=$2
 	local dmem=$(( newvalue - oldvalue ))

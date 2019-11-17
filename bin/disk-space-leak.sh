@@ -16,15 +16,15 @@ safe_source ${here}/standard-traps.inc.sh
 
 # the du command with parameters:
 # -s : summarize each elements
-# -BM : values in megabytes
-_os=$(uname)
+# gnu:  -BM : values in megabytes
+# bsd:  -m  : values in megabytes
 number_of_dirs=3
-unit=M
 case ${_os} in
-    SunOS)
+    SunOS|NetBSD)
         unit=m
         ;;
     *)
+        unit=M
         ;;
 esac
 
@@ -67,12 +67,12 @@ continue_loop=1
       esac
     done
 
-_du="du -s -B${unit}"
 case ${_os} in
-    SunOS)
+    SunOS|NetBSD)
         _du="/usr/bin/du -s -${unit}"
         ;;
     *)
+        _du="du -s -B${unit}"
         ;;
 esac
 

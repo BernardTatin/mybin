@@ -6,7 +6,7 @@ set -u
 
 # ----------------------------------------------------------------------
 . $(dirname $0)/bin/base.inc.sh
-safe_source ${here}/bin/standard-traps.inc.sh
+safe_source ${here}/bin/standard-traps.inc.sh ${here}/install.inc.sh
 
 # ----------------------------------------------------------------------
 get_help_text() {
@@ -26,19 +26,8 @@ DOHELP
               ;;
      esac
 # ----------------------------------------------------------------------
-_os=$(uname)
-case ${_os} in
-    SunOS)
-        set +u
-        [ -z "$PREFIX" ] && PREFIX=${HOME}
-        set -u
-        ;;
-    *)
-        set +u
-        [ -z "$PREFIX" ] && PREFIX=/usr/local}
-        set -u
-        ;;
-esac
+
+init_install
 
 echo "Désinstallation des scripts indispensables..."
 
@@ -48,7 +37,7 @@ do
   rm -fv ${PREFIX}/bin/$(basename $f)
 done
 
-echo "Désinstallation de pbook"
-rm -Rfv ${PREFIX}/pbook
+
+! [ ${with_pbook} -eq 0 ] && echo "Désinstallation de pbook" && rm -Rfv ${PREFIX}/pbook
 
 retcode=$SUCCESS

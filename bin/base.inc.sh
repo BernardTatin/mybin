@@ -9,6 +9,7 @@ readonly SUCCESS=0
 readonly FAILURE=1
 
 readonly debug=${debug:-0}
+readonly _os=$(uname)
 
 # variables
 retcode=$FAILURE
@@ -25,7 +26,7 @@ show_error() {
 }
 # onerror exit_code message ...
 onerror() {
-		retcode=$1
+    retcode=$1
     shift
 
     show_error "$*" 1>&2

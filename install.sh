@@ -6,7 +6,7 @@ set -u
 
 # ----------------------------------------------------------------------
 . $(dirname $0)/bin/base.inc.sh
-safe_source ${here}/bin/standard-traps.inc.sh
+safe_source ${here}/bin/standard-traps.inc.sh ${here}/install.inc.sh
 
 # ----------------------------------------------------------------------
 get_help_text() {
@@ -27,26 +27,10 @@ DOHELP
      esac
 # ----------------------------------------------------------------------
 
-_os=$(uname)
-case ${_os} in
-    SunOS)
-        CP_OPT=-p
-        CP_ROPT=-Rp
-set +u
-        [ -z "$PREFIX" ] && PREFIX=${HOME}
-set -u
-        ;;
-    *)
-        CP_OPT=-va
-        CP_ROPT=-Rva
-set +u
-        [ -z "$PREFIX" ] && PREFIX=/usr/local
-set -u
-        ;;
-esac
+init_install
 
 ! [ -d "$PREFIX" ] \
-	&& onerror 1 "$PREFIX n'est pas un répertoire ou n'existe pas"
+	&& onerror $FAILURE "$PREFIX n'est pas un répertoire ou n'existe pas"
 mkdir -p $PREFIX/bin
 echo "Installation des scripts indispensables dans ${PREFIX}..."
 
@@ -57,6 +41,6 @@ do
   cp ${CP_OPT} $f ${PREFIX}/bin
 done
 
-! [ ${_os} = 'SunOS' ] && cp ${CP_ROPT} ${here}/pbook ${PREFIX}
+! [ ${with_pbook} -eq 0 ] && cp ${CP_ROPT} ${here}/pbook ${PREFIX}
 
 retcode=$SUCCESS
